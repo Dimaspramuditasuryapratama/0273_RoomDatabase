@@ -49,7 +49,8 @@ dependencies {
     //ViewModel
     implementation(libs.lifecycle.viewmodel.compose)
     implementation(libs.lifecycle.runtime.compose)
-    
+    //Navigation
+    implementation(libs.navigation.compose)
 
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.graphics)
