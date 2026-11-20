@@ -1,5 +1,6 @@
 package com.example.activity7_roomdatabase.view
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -37,12 +38,14 @@ import com.example.activity7_roomdatabase.room.Siswa
 import com.example.activity7_roomdatabase.uicontroller.DestinasiHome
 import com.example.activity7_roomdatabase.uicontroller.SiswaTopAppBar
 import com.example.activity7_roomdatabase.viewmodel.HomeViewModel
-import com.example.activity7_roomdatabase.viewmodel.PenyediaViewModel
+import com.example.activity7_roomdatabase.viewmodel.provider.PenyediaViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     navigateToItemEntry: () -> Unit,
+    // parameter untuk navigasi ke Edit/Update (sesuai edit 5)
+    navigateToItemUpdate: (Int) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = viewModel(factory = PenyediaViewModel.Factory)
 ) {
@@ -71,8 +74,11 @@ fun HomeScreen(
         },
     ) { innerPadding ->
         val uiStateSiswa by viewModel.homeUiState.collectAsState()
+
         BodyHome(
             itemSiswa = uiStateSiswa.listSiswa,
+            // edit 6: meneruskan aksi klik ke fungsi navigasi update
+            onClickSiswa = navigateToItemUpdate,
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize()
@@ -83,6 +89,8 @@ fun HomeScreen(
 @Composable
 fun BodyHome(
     itemSiswa: List<Siswa>,
+    // edit 3: parameter onClick siswa dengan tipe data Int (ID)
+    onClickSiswa: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -98,6 +106,8 @@ fun BodyHome(
         } else {
             ListSiswa(
                 itemSiswa = itemSiswa,
+                // edit 4: mengekstrak ID dari objek Siswa sebelum diteruskan
+                onClickSiswa = { onClickSiswa(it.id) },
                 modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_small))
             )
         }
@@ -107,6 +117,8 @@ fun BodyHome(
 @Composable
 fun ListSiswa(
     itemSiswa: List<Siswa>,
+    // edit 1: parameter onClick siswa dengan tipe data objek Siswa
+    onClickSiswa: (Siswa) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(modifier = modifier) {
@@ -115,6 +127,8 @@ fun ListSiswa(
                 siswa = person,
                 modifier = Modifier
                     .padding(dimensionResource(id = R.dimen.padding_small))
+                    // edit 2: menambahkan modifier clickable
+                    .clickable { onClickSiswa(person) }
             )
         }
     }
@@ -146,7 +160,7 @@ fun DataSiswa(
                     contentDescription = null,
                 )
                 Text(
-                    text = siswa.telpon,
+                    text = siswa.telpon, // Sesuai dengan properti di file Anda
                     style = MaterialTheme.typography.titleMedium
                 )
             }
