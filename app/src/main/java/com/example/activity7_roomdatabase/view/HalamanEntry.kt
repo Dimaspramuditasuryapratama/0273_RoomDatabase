@@ -28,7 +28,7 @@ import com.example.activity7_roomdatabase.uicontroller.DestinasiEntry
 import com.example.activity7_roomdatabase.uicontroller.SiswaTopAppBar
 import com.example.activity7_roomdatabase.viewmodel.DetailSiswa
 import com.example.activity7_roomdatabase.viewmodel.EntryViewModel
-import com.example.activity7_roomdatabase.viewmodel.PenyediaViewModel
+import com.example.activity7_roomdatabase.viewmodel.provider.PenyediaViewModel
 import com.example.activity7_roomdatabase.viewmodel.UIStateSiswa
 import kotlinx.coroutines.launch
 
