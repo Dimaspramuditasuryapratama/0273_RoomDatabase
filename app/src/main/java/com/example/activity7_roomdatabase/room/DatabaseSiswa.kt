@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [Siswa::class], version = 1, exportSchema = false)
+@Database(entities = [Siswa::class], version = 2, exportSchema = false) // <-- Ubah ke 2
 abstract class DatabaseSiswa : RoomDatabase() {
     abstract fun siswaDao(): SiswaDao
 
@@ -19,7 +19,10 @@ abstract class DatabaseSiswa : RoomDatabase() {
                     context,
                     DatabaseSiswa::class.java,
                     "siswa_database"
-                ).build().also { Instance = it }
+                )
+                    .fallbackToDestructiveMigration() // <-- Tambahkan baris ini
+                    .build()
+                    .also { Instance = it }
             }
         }
     }
